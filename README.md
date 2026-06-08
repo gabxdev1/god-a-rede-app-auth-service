@@ -1,0 +1,1 @@
+# god-a-rede-app-auth-service
