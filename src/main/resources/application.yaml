@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: god-a-rede-app-auth-service
+  threads:
+    virtual:
+      enabled: true
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:postgres}
+    username: ${DATABASE_USER:root}
+    password: ${DATABASE_PASSWORD:root}
+
+security:
+  jwt:
+    secret: uPtgC4t3d5BfodqfKcGfWhrGEgfcrESUgfSfNScB+b5GCjqJLXfDpmYl1zW/zYoC4OCGtA9cyC/laZraNGbjbQ==
+    expiration: 300
+
+
