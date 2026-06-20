@@ -11,7 +11,7 @@ spring:
 
 security:
   jwt:
-    secret: uPtgC4t3d5BfodqfKcGfWhrGEgfcrESUgfSfNScB+b5GCjqJLXfDpmYl1zW/zYoC4OCGtA9cyC/laZraNGbjbQ==
+    secret: ${SECRET_KEY}
     expiration: 300
 
 
