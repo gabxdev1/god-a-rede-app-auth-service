@@ -18,8 +18,15 @@
 		<jjwt-jackson.version>0.13.0</jjwt-jackson.version>
 		<org.mapstruct.version>1.6.3</org.mapstruct.version>
 		<logstash-logback-encoder.version>9.0</logstash-logback-encoder.version>
+		<nimbus-jose-jwt.version>10.9.1</nimbus-jose-jwt.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>${nimbus-jose-jwt.version}</version>
+			<scope>compile</scope>
+		</dependency>
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>

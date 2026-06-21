@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.time.Instant;
 import java.util.Date;
 import java.util.UUID;
@@ -17,18 +19,19 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class JwtUseCase implements JwtInboundPort {
-    private final SecretKey key;
     private final SecurityProperties securityProperties;
+    private final RSAPrivateKey privateKey;
+    private final RSAPublicKey publicKey;
 
     @Override
     public String generateToken(String userId, Instant now) {
         return Jwts.builder()
                 .subject(userId)
-                .issuer("god-a-rede")
+                .issuer("http://localhost:8081")
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plusSeconds(securityProperties.jwt().expiration())))
                 .id(UUID.randomUUID().toString())
-                .signWith(key)
+                .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
     }
 
@@ -44,7 +47,7 @@ public class JwtUseCase implements JwtInboundPort {
 
     private Jws<Claims> parse(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(publicKey)
                 .build()
                 .parseSignedClaims(token);
     }

@@ -16,9 +16,6 @@ public record SecurityProperties(
 ) {
     @Valid
     public record JwtProperties(
-            @NotBlank
-            String secret,
-
             @NotNull
             @Positive
             Integer expiration

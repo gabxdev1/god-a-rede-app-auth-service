@@ -11,7 +11,8 @@ spring:
 
 security:
   jwt:
-    secret: ${SECRET_KEY}
     expiration: 300
+server:
+  port: 8081
 
 
