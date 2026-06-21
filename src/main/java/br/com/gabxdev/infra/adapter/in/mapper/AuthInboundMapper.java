@@ -1,11 +1,15 @@
 package br.com.gabxdev.infra.adapter.in.mapper;
 
 import br.com.gabxdev.domain.model.AccessToken;
+import br.com.gabxdev.domain.model.Profile;
 import br.com.gabxdev.domain.model.User;
 import br.com.gabxdev.infra.adapter.in.dto.SignUpPostRequest;
 import br.com.gabxdev.infra.adapter.in.dto.TokenPostResponse;
 import org.mapstruct.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.Instant;
+import java.util.UUID;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface AuthInboundMapper {
@@ -19,4 +23,15 @@ public interface AuthInboundMapper {
     User toUserCredential(SignUpPostRequest signUpPostRequest, @Context PasswordEncoder passwordEncoder);
 
     TokenPostResponse toTokenPostResponse(AccessToken accessToken);
+
+    @Mappings({
+            @Mapping(target = "userId", source = "userId"),
+            @Mapping(target = "firstName", source = "signUpPostRequest.firstName"),
+            @Mapping(target = "lastName", source = "signUpPostRequest.lastName"),
+            @Mapping(target = "bio", source = "signUpPostRequest.bio"),
+            @Mapping(target = "avatarUrl", source = "signUpPostRequest.avatarUrl"),
+            @Mapping(target = "username", source = "signUpPostRequest.username"),
+            @Mapping(target = "createdAt", source = "createdAt"),
+    })
+    Profile toProfile(SignUpPostRequest signUpPostRequest, UUID userId, Instant createdAt);
 }

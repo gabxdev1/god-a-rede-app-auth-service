@@ -2,6 +2,7 @@ package br.com.gabxdev.infra.adapter.in.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record SignUpPostRequest(
@@ -16,6 +17,10 @@ public record SignUpPostRequest(
         @NotBlank
         String lastName,
         @NotBlank
-        String username
+        String username,
+        @NotNull
+        String bio,
+        @NotNull
+        String avatarUrl
 ) {
 }

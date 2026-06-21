@@ -16,4 +16,8 @@ security:
 server:
   port: 8081
 
-
+http-clients:
+  user-service:
+    url-base: http://localhost:8082
+    endpoints:
+      criar-profile: user
