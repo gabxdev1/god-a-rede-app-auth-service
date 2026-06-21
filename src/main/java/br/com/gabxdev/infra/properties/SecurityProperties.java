@@ -18,7 +18,10 @@ public record SecurityProperties(
     public record JwtProperties(
             @NotNull
             @Positive
-            Integer expiration
+            Integer expiration,
+
+            @NotBlank
+            String issuer
     ) {
     }
 }

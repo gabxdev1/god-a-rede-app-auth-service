@@ -27,7 +27,7 @@ public class JwtUseCase implements JwtInboundPort {
     public String generateToken(String userId, Instant now) {
         return Jwts.builder()
                 .subject(userId)
-                .issuer("http://localhost:8081")
+                .issuer(securityProperties.jwt().issuer())
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(now.plusSeconds(securityProperties.jwt().expiration())))
                 .id(UUID.randomUUID().toString())

@@ -47,7 +47,7 @@ public class SecurityConfig {
     @Bean
     RSAKey rsaKey(RSAPublicKey publicKey) {
         return new RSAKey.Builder(publicKey)
-                .keyID("http://localhost:8081")
+                .keyID("god-a-rede-key")
                 .algorithm(JWSAlgorithm.RS256)
                 .keyUse(KeyUse.SIGNATURE)
                 .build();

@@ -1,5 +1,6 @@
 package br.com.gabxdev.infra.adapter.in.controller;
 
+import br.com.gabxdev.infra.properties.SecurityProperties;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,8 @@ public class PublicKeyController {
 
     private final RSAKey rsaKey;
 
+    private final SecurityProperties securityProperties;
+
     @GetMapping("/jwks.json")
     public Map<String, Object> jwks() {
         return new JWKSet(rsaKey)
@@ -26,8 +29,8 @@ public class PublicKeyController {
     public Map<String, Object> configuration() {
 
         return Map.of(
-                "issuer", "http://localhost:8081",
-                "jwks_uri", "http://localhost:8081/.well-known/jwks.json"
+                "issuer", securityProperties.jwt().issuer(),
+                "jwks_uri", securityProperties.jwt().issuer().concat("/.well-known/jwks.json")
         );
     }
 }

@@ -12,6 +12,7 @@ spring:
 security:
   jwt:
     expiration: 300
+    issuer: http://${APP_HOSTNAME:localhost}:${server.port}
 server:
   port: 8081
 
