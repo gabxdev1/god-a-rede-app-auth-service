@@ -9,8 +9,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Data
-@Table(name = "tb_user_credential", schema = "auth")
-public class UserCredentialEntity {
+@Table(name = "tb_user", schema = "auth")
+public class UserEntity {
     @Id
     private UUID id;
 

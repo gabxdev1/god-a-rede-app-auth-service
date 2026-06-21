@@ -1,13 +1,11 @@
 package br.com.gabxdev.domain.ports.in;
 
 import br.com.gabxdev.domain.model.AccessToken;
-import br.com.gabxdev.domain.model.UserCredential;
+import br.com.gabxdev.domain.model.User;
 
-import java.util.UUID;
+public interface UserInboundPort {
 
-public interface UserCredentialInboundPort {
-
-    UserCredential signUp(UserCredential userCredential);
+    User signUp(User user);
 
     AccessToken authenticate(String email, String password);
 

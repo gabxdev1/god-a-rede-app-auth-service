@@ -6,11 +6,11 @@ import br.com.gabxdev.domain.exception.NotFoundException;
 import br.com.gabxdev.domain.exception.TokenRevokedException;
 import br.com.gabxdev.domain.model.AccessToken;
 import br.com.gabxdev.domain.model.RefreshToken;
-import br.com.gabxdev.domain.model.UserCredential;
+import br.com.gabxdev.domain.model.User;
 import br.com.gabxdev.domain.ports.in.JwtInboundPort;
-import br.com.gabxdev.domain.ports.in.UserCredentialInboundPort;
+import br.com.gabxdev.domain.ports.in.UserInboundPort;
 import br.com.gabxdev.domain.ports.out.RefreshTokenOutputPort;
-import br.com.gabxdev.domain.ports.out.UserCredentialOutputPort;
+import br.com.gabxdev.domain.ports.out.UserOutputPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,18 +23,18 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class UserCredentialUseCase implements UserCredentialInboundPort {
+public class UserUseCase implements UserInboundPort {
 
-    private final UserCredentialOutputPort userCredentialOutputPort;
+    private final UserOutputPort userOutputPort;
     private final PasswordEncoder passwordEncoder;
     private final JwtInboundPort jwtInboundPort;
     private final RefreshTokenOutputPort refreshTokenOutputPort;
 
     @Override
-    public UserCredential signUp(UserCredential userCredential) {
-        log.info("Signing up user with email: {}", userCredential.getEmail());
+    public User signUp(User user) {
+        log.info("Signing up user with email: {}", user.getEmail());
 
-        var saved = userCredentialOutputPort.save(userCredential);
+        var saved = userOutputPort.save(user);
 
         log.info("User with email: {} signed up successfully with id: {}", saved.getEmail(), saved.getId());
 
@@ -45,7 +45,7 @@ public class UserCredentialUseCase implements UserCredentialInboundPort {
     public AccessToken authenticate(String email, String password) {
         log.info("Authenticating user with email: {}", email);
 
-        var userCredential = userCredentialOutputPort.findByEmailOrThrowNotFound(email);
+        var userCredential = userOutputPort.findByEmailOrThrowNotFound(email);
 
         if (!passwordEncoder.matches(password, userCredential.getPasswordHash())) {
             throw new BadCredentialsException("E-mail ou senha inválidos");
@@ -72,7 +72,7 @@ public class UserCredentialUseCase implements UserCredentialInboundPort {
             throw new ExpiredJwtException("Refresh token with token: %s has expired".formatted(token));
         }
 
-        var userCredential = userCredentialOutputPort.findByIdOrThrowNotFound(refreshToken.getUserId());
+        var userCredential = userOutputPort.findByIdOrThrowNotFound(refreshToken.getUserId());
 
         refreshToken.setRevoked(Boolean.TRUE);
         refreshTokenOutputPort.save(refreshToken);

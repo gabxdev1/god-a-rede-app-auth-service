@@ -1,7 +1,7 @@
 package br.com.gabxdev.infra.adapter.in.mapper;
 
 import br.com.gabxdev.domain.model.AccessToken;
-import br.com.gabxdev.domain.model.UserCredential;
+import br.com.gabxdev.domain.model.User;
 import br.com.gabxdev.infra.adapter.in.dto.SignUpPostRequest;
 import br.com.gabxdev.infra.adapter.in.dto.TokenPostResponse;
 import org.mapstruct.*;
@@ -16,7 +16,7 @@ public interface AuthInboundMapper {
             @Mapping(target = "admin", expression = "java(java.lang.Boolean.FALSE)"),
             @Mapping(target = "createdAt", expression = "java(java.time.Instant.now())")
     })
-    UserCredential toUserCredential(SignUpPostRequest signUpPostRequest, @Context PasswordEncoder passwordEncoder);
+    User toUserCredential(SignUpPostRequest signUpPostRequest, @Context PasswordEncoder passwordEncoder);
 
     TokenPostResponse toTokenPostResponse(AccessToken accessToken);
 }

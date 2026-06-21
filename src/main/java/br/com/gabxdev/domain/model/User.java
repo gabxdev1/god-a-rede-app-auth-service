@@ -5,7 +5,7 @@ import br.com.gabxdev.domain.model.enums.UserStatus;
 import java.time.Instant;
 import java.util.UUID;
 
-public class UserCredential {
+public class User {
     private UUID id;
 
     private String email;
@@ -18,10 +18,10 @@ public class UserCredential {
 
     private Instant createdAt;
 
-    public UserCredential() {
+    public User() {
     }
 
-    public UserCredential(UUID id, String email, String passwordHash, UserStatus status, Boolean admin, Instant createdAt) {
+    public User(UUID id, String email, String passwordHash, UserStatus status, Boolean admin, Instant createdAt) {
         this.id = id;
         this.email = email;
         this.passwordHash = passwordHash;

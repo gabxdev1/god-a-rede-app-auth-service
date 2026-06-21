@@ -1,6 +1,6 @@
 package br.com.gabxdev.infra.adapter.in.controller;
 
-import br.com.gabxdev.domain.ports.in.UserCredentialInboundPort;
+import br.com.gabxdev.domain.ports.in.UserInboundPort;
 import br.com.gabxdev.infra.adapter.in.dto.LoginPostRequest;
 import br.com.gabxdev.infra.adapter.in.dto.SignUpPostRequest;
 import br.com.gabxdev.infra.adapter.in.dto.TokenPostResponse;
@@ -22,18 +22,20 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AuthInboundMapper authInboundMapper;
-    private final UserCredentialInboundPort userCredentialInboundPort;
+    private final UserInboundPort userInboundPort;
 
     @PostMapping(path = "/sign-up")
     public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpPostRequest request) {
         var userCredential = authInboundMapper.toUserCredential(request, passwordEncoder);
-        userCredentialInboundPort.signUp(userCredential);
+        userInboundPort.signUp(userCredential);
+
+
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping(path = "/sign-in")
     public ResponseEntity<TokenPostResponse> signIn(@Valid @RequestBody LoginPostRequest request) {
-        var accessToken = userCredentialInboundPort.authenticate(request.email(), request.password());
+        var accessToken = userInboundPort.authenticate(request.email(), request.password());
         var tokenResponse = authInboundMapper.toTokenPostResponse(accessToken);
         return ResponseEntity.ok(tokenResponse);
     }
@@ -41,7 +43,7 @@ public class AuthController {
     @PostMapping(path = "/refresh/{refreshToken}")
     public ResponseEntity<TokenPostResponse> refresh(@UUID @NotNull
                                                      @PathVariable String refreshToken) {
-        var accessToken = userCredentialInboundPort.refresh(refreshToken);
+        var accessToken = userInboundPort.refresh(refreshToken);
         var tokenResponse = authInboundMapper.toTokenPostResponse(accessToken);
         return ResponseEntity.ok(tokenResponse);
     }
@@ -49,7 +51,7 @@ public class AuthController {
     @PostMapping("/logout/{refreshToken}")
     public ResponseEntity<Void> logout(@PathVariable String refreshToken
     ) {
-        userCredentialInboundPort.logout(refreshToken);
+        userInboundPort.logout(refreshToken);
 
         return ResponseEntity.ok().build();
     }
